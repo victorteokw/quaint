@@ -299,8 +299,26 @@ impl Builder {
         Self::log_start(&connection_info, self.connection_limit);
 
         let inner = Pool::builder()
-            .max_open(self.connection_limit as u64)
-            .max_idle(self.max_idle.unwrap_or(self.connection_limit as u64))
+            .max_open(if let Some(file_path) = connection_info.file_path() {
+                if file_path == ":memory:" {
+                    1
+                } else {
+                    self.connection_limit as u64
+                }
+            } else {
+                self.connection_limit as u64
+            })
+            .max_idle(
+                if let Some(file_path) = connection_info.file_path() {
+                    if file_path == ":memory:" {
+                        1
+                    } else {
+                        self.max_idle.unwrap_or(self.connection_limit as u64)
+                    }
+                } else {
+                    self.max_idle.unwrap_or(self.connection_limit as u64)
+                }
+            )
             .max_idle_lifetime(self.max_idle_lifetime)
             .max_lifetime(self.max_lifetime)
             .get_timeout(None) // we handle timeouts here
