@@ -336,7 +336,7 @@ impl Quaint {
     pub fn builder(url_str: &str) -> crate::Result<Builder> {
         match url_str {
             #[cfg(feature = "sqlite")]
-            s if s.starts_with("file") => {
+            s if s.starts_with("file") || s.starts_with("sqlite") => {
                 let params = crate::connector::SqliteParams::try_from(s)?;
 
                 let manager = QuaintManager::Sqlite {

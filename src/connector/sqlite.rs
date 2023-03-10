@@ -130,6 +130,11 @@ impl TryFrom<&str> for Sqlite {
     type Error = Error;
 
     fn try_from(path: &str) -> crate::Result<Self> {
+
+        if path.contains(":memory:") {
+            return Sqlite::new_in_memory();
+        }
+
         let params = SqliteParams::try_from(path)?;
         let file_path = params.file_path;
 

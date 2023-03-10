@@ -268,7 +268,7 @@ impl SqlFamily {
     pub fn from_scheme(url_scheme: &str) -> Option<Self> {
         match url_scheme {
             #[cfg(feature = "sqlite")]
-            "file" => Some(SqlFamily::Sqlite),
+            "file" | "sqlite" => Some(SqlFamily::Sqlite),
             #[cfg(feature = "postgresql")]
             "postgres" | "postgresql" => Some(SqlFamily::Postgres),
             #[cfg(feature = "mysql")]
