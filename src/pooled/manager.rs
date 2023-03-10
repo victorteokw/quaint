@@ -10,7 +10,7 @@ use crate::{
     error::Error,
 };
 use async_trait::async_trait;
-use mobc::{Connection as MobcPooled, Manager};
+use mobc_forked::{Connection as MobcPooled, Manager};
 
 /// A connection from the pool. Implements
 /// [Queryable](connector/trait.Queryable.html).

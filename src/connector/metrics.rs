@@ -58,9 +58,9 @@ where
 }
 
 #[cfg(feature = "pooled")]
-pub(crate) async fn check_out<F, T>(f: F) -> std::result::Result<T, mobc::Error<crate::error::Error>>
+pub(crate) async fn check_out<F, T>(f: F) -> std::result::Result<T, mobc_forked::Error<crate::error::Error>>
 where
-    F: Future<Output = std::result::Result<T, mobc::Error<crate::error::Error>>>,
+    F: Future<Output = std::result::Result<T, mobc_forked::Error<crate::error::Error>>>,
 {
     let start = Instant::now();
     let res = f.await;

@@ -5,6 +5,12 @@
 [![Cargo tests](https://github.com/prisma/quaint/actions/workflows/test.yml/badge.svg)](https://github.com/prisma/quaint/actions/workflows/test.yml)
 [![Discord](https://img.shields.io/discord/664092374359605268)](https://discord.gg/r4CPY4B)
 
+### Notice
+
+This project is a fork of Prisma's [quaint](https://github.com/prisma/quaint).
+
+### Introduction
+
 Quaint is an abstraction over certain SQL databases. It provides:
 
 - An AST for building dynamic SQL queries.

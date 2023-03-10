@@ -156,7 +156,7 @@ use crate::{
     connector::ConnectionInfo,
     error::{Error, ErrorKind},
 };
-use mobc::Pool;
+use mobc_forked::Pool;
 use std::{sync::Arc, time::Duration};
 
 #[cfg(feature = "sqlite")]
@@ -483,8 +483,8 @@ impl Quaint {
 
         let inner = match res {
             Ok(conn) => conn,
-            Err(mobc::Error::PoolClosed) => return Err(Error::builder(ErrorKind::PoolClosed {}).build()),
-            Err(mobc::Error::Timeout) => {
+            Err(mobc_forked::Error::PoolClosed) => return Err(Error::builder(ErrorKind::PoolClosed {}).build()),
+            Err(mobc_forked::Error::Timeout) => {
                 let state = self.inner.state().await;
                 // We can use unwrap here because a pool timeout has to be set to use a connection pool
                 let timeout_duration = self.pool_timeout.unwrap();
@@ -492,8 +492,8 @@ impl Quaint {
                     Error::builder(ErrorKind::pool_timeout(state.max_open, state.in_use, timeout_duration)).build(),
                 );
             }
-            Err(mobc::Error::Inner(e)) => return Err(e),
-            Err(e @ mobc::Error::BadConn) => {
+            Err(mobc_forked::Error::Inner(e)) => return Err(e),
+            Err(e @ mobc_forked::Error::BadConn) => {
                 let error = Error::builder(ErrorKind::ConnectionError(Box::new(e))).build();
                 return Err(error);
             }
