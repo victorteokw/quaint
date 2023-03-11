@@ -470,7 +470,7 @@ impl PostgresUrl {
         config.host(self.host());
         config.port(self.port());
         config.dbname(self.dbname());
-        config.pgbouncer_mode(self.query_params.pg_bouncer);
+        // config.pgbouncer_mode(self.query_params.pg_bouncer);
 
         if let Some(options) = self.options() {
             config.options(options);
