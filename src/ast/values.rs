@@ -530,15 +530,22 @@ impl<'a> Value<'a> {
         matches!(self, Value::Array(_))
     }
 
+    pub const fn as_array(&self) -> Option<&Vec<Value>> {
+        match self {
+            Value::Array(a) => a.as_ref(),
+            _ => None,
+        }
+    }
+
     /// `true` if the `Value` is of UUID type.
     #[cfg(feature = "uuid")]
-        pub const fn is_uuid(&self) -> bool {
+    pub const fn is_uuid(&self) -> bool {
         matches!(self, Value::Uuid(_))
     }
 
     /// Returns an UUID if the value is of UUID type, otherwise `None`.
     #[cfg(feature = "uuid")]
-        pub const fn as_uuid(&self) -> Option<Uuid> {
+    pub const fn as_uuid(&self) -> Option<Uuid> {
         match self {
             Value::Uuid(u) => *u,
             _ => None,
@@ -547,7 +554,7 @@ impl<'a> Value<'a> {
 
     /// `true` if the `Value` is a DateTime.
     #[cfg(feature = "chrono")]
-        pub const fn is_datetime(&self) -> bool {
+    pub const fn is_datetime(&self) -> bool {
         matches!(self, Value::DateTime(_))
     }
 
