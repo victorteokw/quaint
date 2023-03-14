@@ -98,7 +98,7 @@ serde = { version = "1.0", features = ["derive"] }
 test-macros = { path = "test-macros" }
 test-setup = { path = "test-setup" }
 uuid = { version = "1", features = ["v4"] }
-tokio = { version = "1.0", features = ["rt-multi-thread", "macros", "time"] }
+tokio = { version = "1.26", features = ["rt-multi-thread", "macros", "time"] }
 
 [dependencies.byteorder]
 default-features = false
