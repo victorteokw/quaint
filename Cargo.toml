@@ -17,7 +17,7 @@ license = "Apache-2.0"
 name = "quaint-forked"
 readme = "README.md"
 repository = "https://github.com/zhangkaiyulw/quaint/"
-version = "0.1.1"
+version = "0.1.2"
 resolver = "2"
 
 [package.metadata.docs.rs]
@@ -98,7 +98,7 @@ serde = { version = "1.0", features = ["derive"] }
 test-macros = { path = "test-macros" }
 test-setup = { path = "test-setup" }
 uuid = { version = "1", features = ["v4"] }
-tokio = { version = "1.26", features = ["rt-multi-thread", "macros", "time"] }
+tokio = { version = "1.0", features = ["rt-multi-thread", "macros", "time"] }
 
 [dependencies.byteorder]
 default-features = false

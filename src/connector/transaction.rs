@@ -6,6 +6,7 @@ use crate::{
 use async_trait::async_trait;
 use metrics::{decrement_gauge, increment_gauge};
 use std::{fmt, str::FromStr};
+use std::sync::Arc;
 
 extern crate metrics as metrics;
 
@@ -22,17 +23,17 @@ pub(crate) struct TransactionOptions {
 ///
 /// Currently does not support nesting, so starting a new transaction using the
 /// transaction object will panic.
-pub struct Transaction<'a> {
-    pub(crate) inner: &'a dyn Queryable,
+pub struct Transaction {
+    pub(crate) inner: Arc<dyn Queryable>,
 }
 
-impl<'a> Transaction<'a> {
+impl Transaction {
     pub(crate) async fn new(
-        inner: &'a dyn Queryable,
+        inner: Arc<dyn Queryable>,
         begin_stmt: &str,
         tx_opts: TransactionOptions,
-    ) -> crate::Result<Transaction<'a>> {
-        let this = Self { inner };
+    ) -> crate::Result<Transaction> {
+        let this = Self { inner: inner.clone() };
 
         if tx_opts.isolation_first {
             if let Some(isolation) = tx_opts.isolation_level {
@@ -72,7 +73,7 @@ impl<'a> Transaction<'a> {
 }
 
 #[async_trait]
-impl<'a> Queryable for Transaction<'a> {
+impl Queryable for Transaction {
     async fn query(&self, q: Query<'_>) -> crate::Result<ResultSet> {
         self.inner.query(q).await
     }

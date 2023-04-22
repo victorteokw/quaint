@@ -799,7 +799,7 @@ impl Queryable for PostgreSql {
         self.is_healthy.load(Ordering::SeqCst)
     }
 
-    async fn server_reset_query(&self, tx: &Transaction<'_>) -> crate::Result<()> {
+    async fn server_reset_query(&self, tx: &Transaction) -> crate::Result<()> {
         if self.pg_bouncer {
             tx.raw_cmd("DEALLOCATE ALL").await
         } else {

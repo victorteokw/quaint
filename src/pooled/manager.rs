@@ -58,7 +58,7 @@ impl Queryable for PooledConnection {
         self.inner.is_healthy()
     }
 
-    async fn server_reset_query(&self, tx: &Transaction<'_>) -> crate::Result<()> {
+    async fn server_reset_query(&self, tx: &Transaction) -> crate::Result<()> {
         self.inner.server_reset_query(tx).await
     }
 
