@@ -1,6 +1,8 @@
+use std::sync::Arc;
 use super::{IsolationLevel, ResultSet, Transaction, TransactionOptions};
 use crate::ast::*;
 use async_trait::async_trait;
+use crate::connector::{OwnedTransaction};
 
 pub trait GetRow {
     fn get_result_row(&self) -> crate::Result<Vec<Value<'static>>>;
@@ -86,6 +88,11 @@ pub trait Queryable: Send + Sync {
         Ok(())
     }
 
+    /// Execute an arbitrary function in the beginning of each transaction.
+    async fn server_reset_query_owned(&self, _: &OwnedTransaction) -> crate::Result<()> {
+        Ok(())
+    }
+
     /// Statement to begin a transaction
     fn begin_statement(&self) -> &'static str {
         "BEGIN"
@@ -111,3 +118,9 @@ where
         Transaction::new(self, self.begin_statement(), opts).await
     }
 }
+
+pub async fn start_owned_transaction(queryable: Arc<dyn Queryable>, isolation: Option<IsolationLevel>) -> crate::Result<OwnedTransaction> {
+    let opts = TransactionOptions::new(isolation, queryable.requires_isolation_first());
+    OwnedTransaction::new(queryable.clone(), queryable.begin_statement(), opts).await
+}
+

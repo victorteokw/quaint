@@ -16,6 +16,7 @@ mod result_set;
 #[cfg(any(feature = "mssql", feature = "postgresql", feature = "mysql"))]
 mod timeout;
 mod transaction;
+pub mod owned_transaction;
 mod type_identifier;
 
 #[cfg(feature = "mssql")]
@@ -39,6 +40,7 @@ pub use queryable::*;
 #[cfg(feature = "sqlite")]
 pub use sqlite::*;
 pub use transaction::*;
+pub use owned_transaction::*;
 #[cfg(any(feature = "sqlite", feature = "mysql", feature = "postgresql"))]
 #[allow(unused_imports)]
 pub(crate) use type_identifier::*;

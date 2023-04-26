@@ -1,6 +1,7 @@
 mod conversion;
 mod error;
 
+use std::sync::Arc;
 use super::{IsolationLevel, TransactionOptions};
 use crate::{
     ast::{Query, Value},
@@ -26,6 +27,7 @@ use tokio_util::compat::{Compat, TokioAsyncWriteCompatExt};
 /// The underlying SQL Server driver. Only available with the `expose-drivers` Cargo feature.
 #[cfg(feature = "expose-drivers")]
 pub use tiberius;
+use crate::connector::{OwnedTransaction};
 
 /// Wraps a connection url and exposes the parsing logic used by Quaint,
 /// including default values.
@@ -107,6 +109,15 @@ impl TransactionCapable for Mssql {
 
         Transaction::new(self, self.begin_statement(), opts).await
     }
+}
+
+pub async fn start_owned_transaction_for_mssql(queryable: Arc<Mssql>, isolation: Option<IsolationLevel>) -> crate::Result<OwnedTransaction> {
+    let isolation = isolation
+        .or(queryable.url.query_params.transaction_isolation_level)
+        .or(Some(SQL_SERVER_DEFAULT_ISOLATION));
+
+    let opts = TransactionOptions::new(isolation, queryable.requires_isolation_first());
+    OwnedTransaction::new(queryable.clone(), queryable.begin_statement(), opts).await
 }
 
 impl MssqlUrl {
