@@ -8,7 +8,7 @@ use std::sync::Arc;
 /// [ResultRowRef](struct.ResultRowRef.html) for documentation on data access.
 #[derive(Debug, PartialEq)]
 pub struct ResultRow {
-    pub(crate) columns: Arc<Vec<String>>,
+    pub columns: Arc<Vec<String>>,
     pub(crate) values: Vec<Value<'static>>,
 }
 

@@ -10,14 +10,13 @@ authors = [
 description = "An abstraction layer for SQL databases."
 documentation = "https://docs.rs/quaint/"
 edition = "2021"
-rust = "1.67"
 homepage = "https://github.com/zhangkaiyulw/quaint/"
 keywords = ["mysql", "postgresql", "sqlite", "sql"]
 license = "Apache-2.0"
 name = "quaint-forked"
 readme = "README.md"
 repository = "https://github.com/zhangkaiyulw/quaint/"
-version = "0.1.3-alpha.5"
+version = "0.1.3-alpha.6"
 resolver = "2"
 
 [package.metadata.docs.rs]
