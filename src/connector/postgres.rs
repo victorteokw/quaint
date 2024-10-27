@@ -465,7 +465,7 @@ impl PostgresUrl {
     pub(crate) fn to_config(&self) -> Config {
         let mut config = Config::new();
 
-        config.user(self.username().borrow());
+        config.user(self.username().borrow() as &str);
         config.password(self.password().borrow() as &str);
         config.host(self.host());
         config.port(self.port());
